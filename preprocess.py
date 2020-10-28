@@ -5,7 +5,7 @@ from pathlib import Path, PurePath
 from PIL import Image
 from sklearn.model_selection import train_test_split
 
-from util import RAW_PATH, TRAIN_PATH, TEST_PATH, clean_mkdir, ROWS, COLS, IMAGES_PATH
+from util import RAW_PATH, TRAIN_PATH, TEST_PATH, clean_mkdir, ROWS, COLS, IMAGES_PATH, TRAIN_LABELS_PATH, TEST_LABELS_PATH
 
 
 def generate_samples(image_path, data_path):
@@ -27,9 +27,9 @@ def generate_samples(image_path, data_path):
 
     count = 0
     # iterate starting X
-    for i in range(0, cols - COLS - 1, COLS / 2):
+    for i in range(0, cols - COLS - 1, COLS // 2):
         # iterate starting Y
-        for j in range(0, rows - ROWS - 1, ROWS / 2):
+        for j in range(0, rows - ROWS - 1, ROWS // 2):
             img_out = img_src.crop((i, j, i + ROWS, j + COLS))
             img_out.save("{}/{}_{:05d}.jpg".format(output_path, filename, count))
             count += 1
@@ -47,8 +47,8 @@ def generate_samples(image_path, data_path):
 def split_sets(data_path: Path):
     input_path = data_path / RAW_PATH
 
-    train_path = data_path / TRAIN_PATH
-    test_path = data_path / TEST_PATH
+    train_path = data_path / TRAIN_LABELS_PATH
+    test_path = data_path / TEST_LABELS_PATH
 
     clean_mkdir(str(train_path))
     clean_mkdir(str(test_path))
